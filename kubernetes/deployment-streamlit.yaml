@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codex-validator-deployment
+  labels:
+    app: codex-validator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: codex-validator
+  template:
+    metadata:
+      labels:
+        app: codex-validator
+    spec:
+      containers:
+        - name: codex-validator
+          image: sagar87/codex-validator:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8501
+          env:
+            - name: ENV
+              value: "production"
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: codex-validator-credentials
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: codex-validator-credentials
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: codex-validator-credentials
+                  key: AWS_URL
+            - name: AWS_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: codex-validator-credentials
+                  key: AWS_PATH
+            - name: PRIVATE_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: codex-validator-credentials
+                  key: PRIVATE_KEY_ID
+            - name: PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: codex-validator-credentials
+                  key: PRIVATE_KEY
+            - name: CLIENT_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: codex-validator-credentials
+                  key: CLIENT_EMAIL
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: codex-validator-credentials
+                  key: CLIENT_ID
+            - name: AUTH_PROVIDER_X509_CERT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: codex-validator-credentials
+                  key: AUTH_PROVIDER_X509_CERT_URL
+            - name: CLIENT_X509_CERT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: codex-validator-credentials
+                  key: CLIENT_X509_CERT_URL
+            - name: APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: codex-validator-credentials
+                  key: APP_KEY
